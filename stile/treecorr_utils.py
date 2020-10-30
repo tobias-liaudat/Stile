@@ -99,7 +99,11 @@ def ReadTreeCorrResultsFile(file_name):
     # "# col1 . col2 . col3 [...]"
     # so we can get the proper field names by reading the first line of the file and processing it.
     with open(file_name) as f:
-        fields = f.readline().split()
+        DEPRECIATED_fields = f.readline().split() # [TL] BUG FIX
+        fields = f.readline().split()   # [TL] Need to read into the 2nd line of the file to recover the actual fields
+                                        # The first line contains:
+                                        # ['##', "{'coords':", "'spherical',", "'metric':", "'Euclidean',",
+                                        # "'sep_units':", "'arcmin',", "'bin_type':", "'Log'}"]
     fields = fields[1:]
     fields = [field for field in fields if field != '.']
     return stile_utils.FormatArray(output, fields=fields)
